@@ -9,6 +9,23 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+app.get("/urls", (req, res) => {
+  let templateVars = { urls: urlDatabase };
+  res.render("urls_index", templateVars);
+});
+
+
+// app.get("/urls/:shortURL", (req, res) => {
+//   let templateVars = {shortUrl: req.params.shortURL, longURL: urlDatabase}
+//   res.render("urls_show", templateVars);
+// })
+
+app.get("/urls/:shortURL", (req, res) => {
+  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase };
+  res.render("urls_show", templateVars);
+});
+
+
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
