@@ -17,10 +17,16 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+
+app.get("/", (req, res) => {
+  res.send("Hello!");
+});
+
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
 });
+
 
 
 app.get("/urls/new", (req, res) => {
@@ -29,18 +35,26 @@ app.get("/urls/new", (req, res) => {
 
 app.post("/urls", (req, res) => {
   console.log(req.body);  // Log the POST request body to the console
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  let randomString = generateRandomString();
+  urlDatabase[randomString] = req.body.longURL;
+  console.log(urlDatabase);
+  // res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  res.redirect(`urls/${randomString}`);
 });
 
 
 app.get("/urls/:shortURL", (req, res) => {
+  //1st shortURL is linked to the show.ejs file 
+  //req.params is linked to the app.get url name
   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   res.render("urls_show", templateVars);
+  console.log(req.params)
 });
 
 
-app.get("/", (req, res) => {
-  res.send("Hello!");
+app.get("/u/:shortURL", (req, res) => {
+  // const longURL = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.] };
+  res.redirect(urlDatabase[req.params.shortURL]);
 });
 
 
