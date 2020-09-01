@@ -18,6 +18,7 @@ const urlDatabase = {
 };
 
 
+
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
@@ -26,8 +27,6 @@ app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
 });
-
-
 
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
@@ -42,31 +41,34 @@ app.post("/urls", (req, res) => {
   res.redirect(`urls/${randomString}`);
 });
 
-
+ //1st shortURL is linked to the show.ejs file
 app.get("/urls/:shortURL", (req, res) => {
-  //1st shortURL is linked to the show.ejs file 
   //req.params is linked to the app.get url name
   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   res.render("urls_show", templateVars);
-  console.log(req.params)
+  console.log(req.params);
 });
-
 
 app.get("/u/:shortURL", (req, res) => {
   // const longURL = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.] };
   res.redirect(urlDatabase[req.params.shortURL]);
 });
 
-
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 
-
-
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
+
+app.post("/urls/:shortURL/delete", (req, res) => {
+  // console.log(req.params.shortURL);
+  delete urlDatabase[req.params.shortURL];
+  res.redirect("/urls");
+})
+
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
