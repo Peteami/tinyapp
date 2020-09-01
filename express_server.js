@@ -18,20 +18,25 @@ const urlDatabase = {
 };
 
 
-
+// Home route
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
+
+// Route to see all urls
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
 });
 
+
+// Route to create a new short url
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
+// Create new short url and redirect to the page from this new url
 app.post("/urls", (req, res) => {
   console.log(req.body);  // Log the POST request body to the console
   let randomString = generateRandomString();
@@ -41,6 +46,8 @@ app.post("/urls", (req, res) => {
   res.redirect(`urls/${randomString}`);
 });
 
+
+// Route to get specific long url info with the short url info
  //1st shortURL is linked to the show.ejs file
 app.get("/urls/:shortURL", (req, res) => {
   //req.params is linked to the app.get url name
@@ -48,6 +55,7 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
   console.log(req.params);
 });
+
 
 app.get("/u/:shortURL", (req, res) => {
   // const longURL = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.] };
@@ -58,18 +66,37 @@ app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 
+// Route to /hello
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
 
+
+// Delete an url
 app.post("/urls/:shortURL/delete", (req, res) => {
   // console.log(req.params.shortURL);
   delete urlDatabase[req.params.shortURL];
   res.redirect("/urls");
 })
 
+// Modify an url
+app.get("/urls/:shortURL/modify", (req, res) => {
+  // console.log("Success!!!");
+  res.redirect(`/urls/${req.params.shortURL}`);
+})
+
+app.post("/urls/:shortURL/modify", (req, res) => {
+  // console.log("Success!!!");
+  console.log(req.body);
+  console.log(urlDatabase);
+  urlDatabase[req.params.shortURL] = req.body.longURL;
+  console.log(urlDatabase);
+  res.redirect(`/urls`);
+})
 
 
+
+// Start server on port with message
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
