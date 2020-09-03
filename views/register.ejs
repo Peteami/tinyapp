@@ -11,14 +11,21 @@
 <body>
   <%- include('partials/_header') %>
   <main style="margin: 1em;">
-    <h3>Register</h3>
+    <h1>Create Account</h1>
     <form method="POST" action="/register">
-      <label for="email">Email</label>
-      <input type="email" name="email">
-      <label for="password">Password</label>
-      <input type="password" name="password">
-      <button type="submit" class="btn btn-success">Register</button>
-    </form>
+      <div class="form-group">
+        <label for="email" >Email address</label>
+        <br>
+        <input type="email" name="email" placeholder="Enter email" class="form-control form-control-md">
+      </div>
+      <div class="form-group mb-2"></div>
+        <label for="password">Password</label>
+        <br>
+        <input type="password" name="password" placeholder="Password" class="form-control form-control-md">
+      </div>
+      <br>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
     
   </main>
   <!-- Bootstrap JS -->
